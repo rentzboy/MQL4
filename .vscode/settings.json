@@ -1,0 +1,35 @@
+//IMPORTANTE: La plantilla de settings.json que genera la extension da error al compilar, falta la linea
+//"mql_tools.Metaeditor.Metaeditor4Dir": "C:\\Program Files (x86)\\OANDA - MetaTrader\\metaeditor.exe",
+
+{
+  "mql_tools.Help.MQL4HelpLanguage": "Default",
+  "mql_tools.Compilation.cpu": "X64 Regular",
+  "mql_tools.Help.HelpON": true,
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/**",
+    "${workspaceFolder}/Include"
+  ],
+  "mql_tools.Metaeditor.Metaeditor4Dir": "C:\\Program Files (x86)\\OANDA - MetaTrader\\metaeditor.exe",
+  "mql_tools.Metaeditor.Metaeditor5Dir": "C:\\Program Files\\MetaTrader 5\\MetaEditor64.exe",
+  "C_Cpp.default.intelliSenseMode": "gcc-x64",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.autocompleteAddParentheses": true,
+  "files.exclude": {
+    "**/*.ex4": true,
+    "**/*.ex5": true,
+    "**/*_@!!@.mq4": true,
+    "**/*_@!!@.mq5": true,
+    "**/*_@!!@.mqh": true,
+    "**/*_@!!@.log": true
+  },
+  "files.associations": {
+    "*.mqh": "cpp",
+    "*.mq4": "cpp",
+    "*.mq5": "cpp"
+  },
+  "editor.tabSize": 3,
+  "C_Cpp.default.forcedInclude": [
+    "c:\\Users\\yo\\.vscode\\extensions\\l-i-v.mql-tools-2.2.0\\data\\mql4_en.mqh"
+  ],
+  "C_Cpp.default.compilerPath": ""
+}
