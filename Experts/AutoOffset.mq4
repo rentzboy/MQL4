@@ -18,7 +18,7 @@ short GetAsyncKeyState(int nVirtKey);
 #define OffsetText 5    //Distancia a la que se numeran las velas desde el máx.
 
 //Input keyword para los parámetros que se asignan desde el pop-up (F7)
-input int OffsetPoints = 15;   // Desplazamiento en puntos
+input int OffsetPoints = 25;   // Desplazamiento en puntos
 
 struct trendLineToCoppy {
    string name;
@@ -384,6 +384,15 @@ void DrawAutomaticParallel(int barIndex)
       //Offsets de las lineas de tª desde el minimo
       for (int ii = 1; ii < lineasTendencia[i].offsetCounter + 1; ii++)
       {
+         //Para las offset brown, saltarse las offsets a 5 y 7 pips
+         if(lineasTendencia[i].name == "trendLineBrown")
+         {
+            if(ii == 5 || ii == 7)
+            {
+               continue;
+            }
+         }
+
          string newParallelName = newLineName + IntegerToString(ii);
          double offset = lineasTendencia[i].multiple * _Point * ii; //Warning i -not ii-
 
@@ -503,7 +512,7 @@ void InitTrendLines()
    trendLineBrown.p2        = 1.171879;
    trendLineBrown.offset    = 0.000032;
    trendLineBrown.multiple  = 10;
-   trendLineBrown.offsetCounter = 4;
+   trendLineBrown.offsetCounter = 8;
 
    lineasTendencia[0] = trendLineYellow;
    lineasTendencia[1] = trendLineBlue;
