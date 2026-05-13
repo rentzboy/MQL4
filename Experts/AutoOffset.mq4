@@ -482,7 +482,7 @@ void InitTrendLines()
    trendLineYellow.t2        = D'2026.04.21 22:43';
    trendLineYellow.p1        = 1.172028;
    trendLineYellow.p2        = 1.172131;
-   trendLineYellow.offset    = 0.000064; //Offset para calcular p1 a partir de p2
+   trendLineYellow.offset    = 0.000059; //Offset para calcular p1 a partir de p2
    trendLineYellow.multiple  = 25; //Distancia entre paralelas
    trendLineYellow.offsetCounter = 4;
    
@@ -496,7 +496,7 @@ void InitTrendLines()
    trendLineBlue.t2        = D'2026.04.21 22:43';
    trendLineBlue.p1        = 1.171870;
    trendLineBlue.p2        = 1.172036;
-   trendLineBlue.offset    = 0.000104;
+   trendLineBlue.offset    = 0.000101;
    trendLineBlue.multiple  = 15;
    trendLineBlue.offsetCounter = 6;
    
