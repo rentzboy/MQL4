@@ -159,6 +159,8 @@ void DrawParallel()
    int   lineWidth = (int)ObjectGetInteger(0, objName, OBJPROP_WIDTH);
    int   lineStyle = (int)ObjectGetInteger(0, objName, OBJPROP_STYLE);
    long  lineTime  = ObjectGetInteger(0, objName, OBJPROP_TIMEFRAMES);
+   string description = ObjectDescription(objName);
+   Print(description);
 
    if(ObjectType(objName) == OBJ_VLINE)
    {
@@ -260,6 +262,7 @@ void DrawParallel()
    ObjectSetInteger(0, newName, OBJPROP_STYLE, STYLE_DOT);
    ObjectSetInteger(0, newName, OBJPROP_TIMEFRAMES, lineTime);
    ObjectSetInteger(0, newName, OBJPROP_BACK, true);
+   ObjectSetText(newName, description);
    if(ObjectType(objName) == OBJ_TREND)
    {
       ObjectSetInteger(0, newName, OBJPROP_RAY_RIGHT, false);

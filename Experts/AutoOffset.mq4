@@ -36,7 +36,8 @@ struct trendLineToCoppy {
 };
 
 string ButtonName = "DrawParallelBtn";
-trendLineToCoppy trendLineYellow, trendLineBlue, trendLineBrown;
+trendLineToCoppy trendLineYellow, trendLineBlue, trendLineBrown, 
+trendLineYellow_5min, trendLineLavender_15min, trendLineAqua_15min;
 trendLineToCoppy lineasTendencia[3];
 
 // OnTick solo está activo en los Expert Advisor, pero lo dejo para quitar el error: "OnCalculate not found"
@@ -105,6 +106,7 @@ void OnChartEvent(const int id,
       PrintFormat("Offset: %f", offset);
    }
    */
+   
 
    // Auto Offset => Hay que activar Permitir importar DLL para que funcione en el EA
    if(id == CHARTEVENT_CLICK && (GetAsyncKeyState(VK_RMENU) & 0x8000) != 0)
@@ -381,6 +383,13 @@ void DrawAutomaticParallel(int barIndex)
       ObjectSetInteger(0, newLineName, OBJPROP_SELECTABLE, true);
       ObjectSetInteger(0, newLineName, OBJPROP_SELECTED, true);
 
+      //Sanitation check
+      if (_Period != OBJ_PERIOD_M1)
+      {
+         ChartRedraw(0);
+         return;
+      }
+
       //Offsets de las lineas de tª desde el minimo
       for (int ii = 1; ii < lineasTendencia[i].offsetCounter + 1; ii++)
       {
@@ -443,8 +452,10 @@ void UnselectAllObjects(void)
 
 void NumerarVelas(int indexBar)
 {
+   //Sanitation check
+   if (_Period != OBJ_PERIOD_M1) return;
    
-   //Vamos a numerar 3 ondas:
+   //Vamos a numerar las velas
    for (int i = 2; i < 10; i++)
    {
       //Recuperar el máximo y el datetime de la barra seleccionada
@@ -459,32 +470,26 @@ void NumerarVelas(int indexBar)
       ObjectSetInteger(0, newTextName, OBJPROP_TIMEFRAMES, OBJ_PERIOD_M1);
       ObjectSetInteger(0, newTextName, OBJPROP_FONTSIZE, 10); 
       ObjectSetInteger(0, newTextName, OBJPROP_SELECTED, false);
-      ObjectSetString(0, newTextName, OBJPROP_TEXT, IntegerToString(i + 1));
+      ObjectSetString(0, newTextName, OBJPROP_TEXT, IntegerToString(i + 1)); //descripcion
       i += 2;
    }
-   
-
-
-
-
-
 }
 
 void InitTrendLines()
 {
-   //YELLOW
+   //YELLOW 1MIN
    trendLineYellow.name      = "trendLineYellow";
    trendLineYellow.lineColor = clrYellow;
    trendLineYellow.lineWidth = 1;
    trendLineYellow.lineStyle = STYLE_DOT;
    trendLineYellow.lineTimeFrame = OBJ_PERIOD_M1;
-   trendLineYellow.t1        = D'2026.04.21 22:27';
-   trendLineYellow.t2        = D'2026.04.21 22:43';
-   trendLineYellow.p1        = 1.172028;
-   trendLineYellow.p2        = 1.172131;
-   trendLineYellow.offset    = 0.000059; //Offset para calcular p1 a partir de p2
+   trendLineYellow.t1        = D'2026.04.21 22:27'; //t1 de la linea maestra yellow
+   trendLineYellow.t2        = D'2026.04.21 22:43'; //t2 de la linea maestra yellow
+   trendLineYellow.p1        = 1.172028; //p1 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineYellow.p2        = 1.172131; //p2 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineYellow.offset    = 0.000059; //Offset para calcular p1 a partir de p2 -para 10 barras-
    trendLineYellow.multiple  = 25; //Distancia entre paralelas
-   trendLineYellow.offsetCounter = 4;
+   trendLineYellow.offsetCounter = 4; //Cantidad de paralelas a pintar
    
    //LIGHTSKYBLUE
    trendLineBlue.name      = "trendLineBlue";
@@ -496,9 +501,9 @@ void InitTrendLines()
    trendLineBlue.t2        = D'2026.04.21 22:43';
    trendLineBlue.p1        = 1.171870;
    trendLineBlue.p2        = 1.172036;
-   trendLineBlue.offset    = 0.000101;
+   trendLineBlue.offset    = 0.000101; //para 10 barras
    trendLineBlue.multiple  = 15;
-   trendLineBlue.offsetCounter = 6;
+   trendLineBlue.offsetCounter = 6; //cantidad de paralelas a pintar
    
    //BROWN
    trendLineBrown.name      = "trendLineBrown";
@@ -510,11 +515,64 @@ void InitTrendLines()
    trendLineBrown.t2        = D'2026.04.21 22:43';
    trendLineBrown.p1        = 1.171828;
    trendLineBrown.p2        = 1.171879;
-   trendLineBrown.offset    = 0.000032;
+   trendLineBrown.offset    = 0.000032; //-para 10 barras-
    trendLineBrown.multiple  = 10;
    trendLineBrown.offsetCounter = 8;
 
-   lineasTendencia[0] = trendLineYellow;
-   lineasTendencia[1] = trendLineBlue;
-   lineasTendencia[2] = trendLineBrown;
+   //YELLOW 5MIN
+   trendLineYellow_5min.name      = "trendLineYellow_5min";
+   trendLineYellow_5min.lineColor = clrYellow;
+   trendLineYellow_5min.lineWidth = 1;
+   trendLineYellow_5min.lineStyle = STYLE_DOT;
+   trendLineYellow_5min.lineTimeFrame = OBJ_PERIOD_M5;
+   trendLineYellow_5min.t1        = D'2025.06.23 12:30'; //t1 de la linea maestra yellow
+   trendLineYellow_5min.t2        = D'2025.06.26 19:45'; //t2 de la linea maestra yellow
+   trendLineYellow_5min.p1        = 1.145305; //p1 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineYellow_5min.p2        = 1.172800; //p2 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineYellow_5min.offset    = 0.000289; //Offset para calcular p1 a partir de p2 -para 10 barras-
+   trendLineYellow_5min.multiple  = 25; //Distancia entre paralelas
+   trendLineYellow_5min.offsetCounter = 0; //Cantidad de paralelas a pintar
+
+   //LAVENDER 15MIN
+   trendLineLavender_15min.name      = "trendLineLavender_15min";
+   trendLineLavender_15min.lineColor = Lavender;
+   trendLineLavender_15min.lineWidth = 1;
+   trendLineLavender_15min.lineStyle = STYLE_DOT;
+   trendLineLavender_15min.lineTimeFrame = OBJ_PERIOD_M15;
+   trendLineLavender_15min.t1        = D'2025.06.23 12:30'; //t1 de la linea maestra yellow
+   trendLineLavender_15min.t2        = D'2025.07.02 01:00'; //t2 de la linea maestra yellow
+   trendLineLavender_15min.p1        = 1.145252; //p1 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineLavender_15min.p2        = 1.187024; //p2 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineLavender_15min.offset    = 0.000667; //Offset para calcular p1 a partir de p2
+   trendLineLavender_15min.multiple  = 25; //Distancia entre paralelas
+   trendLineLavender_15min.offsetCounter = 0; //Cantidad de paralelas a pintar
+
+   //AQUA 15MIN
+   trendLineAqua_15min.name      = "trendLineAqua_15min";
+   trendLineAqua_15min.lineColor = Aqua;
+   trendLineAqua_15min.lineWidth = 1;
+   trendLineAqua_15min.lineStyle = STYLE_DOT;
+   trendLineAqua_15min.lineTimeFrame = OBJ_PERIOD_M15;
+   trendLineAqua_15min.t1        = D'2025.06.23 12:30'; //t1 de la linea maestra yellow
+   trendLineAqua_15min.t2        = D'2025.06.26 11:30'; //t2 de la linea maestra yellow
+   trendLineAqua_15min.p1        = 1.145271; //p1 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineAqua_15min.p2        = 1.175031; //p2 de la linea maestra yellow (la que se toma para copiar la paralela)
+   trendLineAqua_15min.offset    = 0.001048; //Offset para calcular p1 a partir de p2
+   trendLineAqua_15min.multiple  = 25; //Distancia entre paralelas
+   trendLineAqua_15min.offsetCounter = 0; //Cantidad de paralelas a pintar
+
+   switch (_Period)
+   {
+   case PERIOD_M15:
+      lineasTendencia[0] = trendLineLavender_15min;
+      lineasTendencia[1] = trendLineAqua_15min;
+      break;
+   case PERIOD_M5:
+      lineasTendencia[0] = trendLineYellow_5min;
+      break;
+   case PERIOD_M1:
+      lineasTendencia[0] = trendLineYellow;
+      lineasTendencia[1] = trendLineBlue;
+      lineasTendencia[2] = trendLineBrown;
+   }
 }
