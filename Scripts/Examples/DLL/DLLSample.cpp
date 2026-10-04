@@ -1,4 +1,4 @@
-//+------------------------------------------------------------------+
+﻿//+------------------------------------------------------------------+
 //|                                              Sample DLL for MQL4 |
 //|                             Copyright 2000-2026, MetaQuotes Ltd. |
 //|                                               www.metaquotes.net |
@@ -237,9 +237,9 @@ int CompareMqlStr(const void *left,const void *right)
    MqlStr *leftstr=(MqlStr *)left;
    MqlStr *rightstr=(MqlStr *)right;
 //---
-   if(leftstr->string==NULL) 
+   if(leftstr->string==NULL)
       return(-1);
-   if(rightstr->string==NULL) 
+   if(rightstr->string==NULL)
       return(1);
 //---
    return(strcmp(leftstr->string,rightstr->string));
